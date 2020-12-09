@@ -17,7 +17,7 @@ class InvoiceRepositoryTest @Autowired constructor(
     @Test
     fun `check findByInvoiceNo`() {
         val invoiceToSave = Invoice(0,"IN01","S01","Sample",
-        10, LocalDate.now(),1.10,"C01","USA")
+        "10", "","1.10","C01","USA")
 
         invoiceRepository.save(invoiceToSave)
 
