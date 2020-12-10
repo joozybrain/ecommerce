@@ -35,4 +35,10 @@ internal class EcommerceServiceTest {
         assertThat(page.size).isEqualTo(20)
     }
 
+    @Test
+    fun `check that searchByAny can return results`() {
+        val result = service.searchByAny("USA")
+        assertThat(result.size).isGreaterThan(0)
+    }
+
 }

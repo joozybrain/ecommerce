@@ -4,9 +4,8 @@ import com.govtech.ecommerce.model.Invoice
 import com.govtech.ecommerce.service.EcommerceService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/ecommerce")
@@ -34,6 +33,8 @@ class EcommerceController {
         }
     }
 
-    @GetMapping("/dataset/search")
-    fun search() = "Searching World"
+    @PostMapping("/dataset/search")
+    fun search(@RequestParam("query") query: String) : List<Invoice>{
+        return service.searchByAny(query)
+    }
 }

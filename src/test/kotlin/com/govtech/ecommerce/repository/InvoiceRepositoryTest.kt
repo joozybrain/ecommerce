@@ -1,4 +1,4 @@
-package com.govtech.ecommerce
+package com.govtech.ecommerce.repository
 
 import com.govtech.ecommerce.model.Invoice
 import com.govtech.ecommerce.repository.InvoiceRepository
@@ -25,8 +25,6 @@ class InvoiceRepositoryTest @Autowired constructor(
 
         assertThat(result?.country).isEqualTo("USA")
         assertThat(result?.description).isEqualTo("Sample")
-
-
 
     }
 

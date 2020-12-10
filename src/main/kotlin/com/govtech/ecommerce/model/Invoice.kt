@@ -10,7 +10,7 @@ import javax.persistence.Id
 data class Invoice (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long?,
     val invoiceNo: String? = null,
     val stockCode: String? = null,
     val description: String? = null,

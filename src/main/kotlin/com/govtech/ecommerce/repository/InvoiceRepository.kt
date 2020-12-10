@@ -8,7 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface InvoiceRepository : PagingAndSortingRepository<Invoice, Long> {
+interface InvoiceRepository : JpaRepository<Invoice, Long> {
     fun findByInvoiceNo(invoiceNo: String): Invoice?
 
 }
