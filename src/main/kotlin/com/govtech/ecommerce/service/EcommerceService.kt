@@ -4,7 +4,10 @@ import com.govtech.ecommerce.model.Invoice
 import com.govtech.ecommerce.repository.InvoiceRepository
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.util.ResourceUtils
 import java.nio.charset.StandardCharsets
@@ -13,10 +16,13 @@ import java.nio.file.Files
 @Service
 class EcommerceService {
 
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     @Autowired
     lateinit var invoiceRepo : InvoiceRepository
 
-    fun loadCSV() : List<Invoice> {
+    fun uploadCSV() : List<Invoice> {
+        //later add in exception handling for csv
         val csvFile = ResourceUtils.getFile("classpath:dataset/data.csv")
 
         //Use ISO_8859_1 to cover all character sets
@@ -38,10 +44,21 @@ class EcommerceService {
                 invoice.get("CustomerID"),
                 invoice.get("Country"))
             invoiceList.add(invoiceRecord)
-            invoiceRepo.save(invoiceRecord)
         }
+        invoiceRepo.saveAll(invoiceList)
 
         return invoiceList
+    }
+
+    fun checkifDBEmpty() : Int {
+        val results = invoiceRepo.findAll()
+        return results.count()
+    }
+
+    fun listInvoiceByPage() : Page<Invoice> {
+        val twentyPerPage = PageRequest.of(0,20)
+        return invoiceRepo.findAll(twentyPerPage)
+
     }
 
 }
