@@ -38,7 +38,7 @@ class EcommerceService {
         return buffReader
     }
 
-    fun saveCSV(buffReader : BufferedReader) : List<Invoice> {
+    fun saveCSV(buffReader : BufferedReader) : Long {
         //later add in exception handling for csv
         val csvReader = buffReader
         val csvParser = CSVParser(csvReader, CSVFormat.DEFAULT
@@ -47,6 +47,7 @@ class EcommerceService {
 
         val invoiceList = mutableListOf<Invoice>()
         var id: Long = 1
+        var counter: Long = 1
         for (invoice in csvParser) {
             var invoiceRecord = Invoice(id++,
                 invoice.get("InvoiceNo"),
@@ -58,10 +59,22 @@ class EcommerceService {
                 invoice.get("CustomerID"),
                 invoice.get("Country"))
             invoiceList.add(invoiceRecord)
+            counter++
+            if (counter >= 50000 ) {
+                invoiceRepo.saveAll(invoiceList)
+                invoiceRepo.flush()
+                counter = 0
+                invoiceList.clear()
+            }
         }
-        invoiceRepo.saveAll(invoiceList)
-        logger.info("Completed DB loading...")
-        return invoiceList
+        //clear remaining where counter cannot exceed 20000
+        if (counter > 0) {
+            invoiceRepo.saveAll(invoiceList)
+        }
+        /*invoiceRepo.deleteAll()
+        invoiceRepo.saveAll(invoiceList)*/
+        logger.info("Completed DB loading..."+invoiceRepo.count())
+        return invoiceRepo.count()
     }
 
     fun checkifDBEmpty() : Int {

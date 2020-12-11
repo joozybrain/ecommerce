@@ -3,10 +3,14 @@ package com.govtech.ecommerce.controller
 import com.govtech.ecommerce.service.EcommerceService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import reactor.core.publisher.Flux
+import java.time.Duration
+import java.time.LocalTime
 
 @Controller
 class EcommerceController {
@@ -15,6 +19,12 @@ class EcommerceController {
 
     @Autowired
     lateinit var service : EcommerceService
+
+    @GetMapping(path = ["/flux"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    fun streamFlux() : Flux<String> {
+        return Flux.interval(Duration.ofSeconds(1))
+            .map { elements -> "Flux - " + LocalTime.now().toString() }
+    }
 
     @GetMapping("/dataset/upload")
     fun file() : String {
@@ -25,21 +35,28 @@ class EcommerceController {
     fun upload(model: Model,
                 @RequestParam("uploadCSV") csv: MultipartFile) : String {
 
-        val buffReader = service.uploadCSV(csv)
-        var message : String
+        try {
+            val buffReader = service.uploadCSV(csv)
+            var message : String
 
-        if (buffReader.ready()) {
-            if (service.saveCSV(buffReader).size > 0) {
-                message = "Success"
+
+            if (buffReader.ready()) {
+                val result = service.saveCSV(buffReader)
+                if (result > 0) {
+                    message = "Success! "+result+" records saved."
+                } else {
+                    message = "Error"
+                }
             } else {
                 message = "Error"
             }
-        } else {
-            message = "Error"
+
+            model.addAttribute("message", message)
+            return "upload"
+        } catch (e: Exception) {
+            return "error"
         }
 
-        model.addAttribute("message", message)
-        return "upload"
     }
 
     @GetMapping("/dataset/list")
@@ -47,19 +64,30 @@ class EcommerceController {
              @RequestParam("page", required = false, defaultValue = "0") page : Int,
              @RequestParam("size", required = false, defaultValue = "5") size : Int) : String? {
 
-        val invoicePage = service.listInvoiceByPage(page, size)
-        model.addAttribute("invoicePage", invoicePage)
+        try {
+            val invoicePage = service.listInvoiceByPage(page, size)
+            model.addAttribute("invoicePage", invoicePage)
 
-        return "list"
+            return "list"
+        } catch (e: Exception) {
+            return "error"
+        }
+
     }
 
     @GetMapping("/dataset/search")
     fun search(model: Model,
                @RequestParam("query", required = false, defaultValue = "bob") query: String) : String{
-        val queryResults = service.searchByAny(query)
-        model.addAttribute("queryResults", queryResults)
 
-        return "results"
+        try {
+            val queryResults = service.searchByAny(query)
+            model.addAttribute("queryResults", queryResults)
+
+            return "results"
+        } catch (e: Exception) {
+            return "error"
+        }
+
     }
 
     @GetMapping("/")

@@ -36,9 +36,8 @@ internal class EcommerceControllerTest {
 
     @Test
     fun checkUploadEndPoint() {
-        val expectedResult = mutableListOf<Invoice>()
-        expectedResult.add(Invoice(1))
-        expectedResult.add(Invoice(2))
+        val expectedResult = 0L
+
 
         val csvByte = ByteArray(1)
         val csv = MockMultipartFile("uploadCSV",csvByte)
