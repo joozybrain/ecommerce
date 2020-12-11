@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dataset Listing</title>
+</head>
+<body>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Invoice Number</th>
+        <th>Stock Code</th>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Invoice Date</th>
+        <th>Unit Price</th>
+        <th>Customer ID</th>
+        <th>Country</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="invoice, iStat : ${invoicePage.content}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
+        <td th:text="${invoice.invoiceNo}" />
+        <td th:text="${invoice.stockCode}" />
+        <td th:text="${invoice.description}" />
+        <td th:text="${invoice.quantity}" />
+        <td th:text="${invoice.invoiceDate}" />
+        <td th:text="${invoice.unitPrice}" />
+        <td th:text="${invoice.customerId}" />
+        <td th:text="${invoice.country}" />
+
+    </tr>
+    </tbody>
+</table>
+<div>
+    <form method="GET" action="">
+        <tr>
+            <td>
+                <label>Page: <input type="text" name="page"></label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>No of Invoices: <input type="text" name="size"></label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="Submit">
+            </td>
+        </tr>
+
+    </form>
+</div>
+<div>
+    <a href="/">Home</a>
+</div>
+
+</body>
+</html>

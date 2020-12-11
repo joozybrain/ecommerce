@@ -31,7 +31,7 @@ internal class EcommerceServiceTest {
 
     @Test
     fun `check able to return a page after uploading`() {
-        val page = service.listInvoiceByPage()
+        val page = service.listInvoiceByPage(20,20)
         assertThat(page.size).isEqualTo(20)
     }
 

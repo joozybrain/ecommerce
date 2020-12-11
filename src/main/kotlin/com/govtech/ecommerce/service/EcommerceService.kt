@@ -48,7 +48,7 @@ class EcommerceService {
             invoiceList.add(invoiceRecord)
         }
         invoiceRepo.saveAll(invoiceList)
-
+        logger.info("Completed DB loading...")
         return invoiceList
     }
 
@@ -57,9 +57,10 @@ class EcommerceService {
         return results.count()
     }
 
-    fun listInvoiceByPage() : Page<Invoice> {
-        val twentyPerPage = PageRequest.of(0,20)
-        return invoiceRepo.findAll(twentyPerPage)
+    fun listInvoiceByPage(page: Int, size: Int) : Page<Invoice> {
+
+        val pageSize = PageRequest.of(page, size)
+        return invoiceRepo.findAll(pageSize)
     }
 
     fun searchByAny(param : String) : List<Invoice> {

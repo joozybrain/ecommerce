@@ -12,23 +12,31 @@ For building and running the application you need:
 
 - [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Maven 3](https://maven.apache.org)
+- [Git](https://git-scm.com/downloads)
 
 ## Getting Started
 
-There are several ways to run a Spring Boot application on your local machine. One way is to execute the `main` method in the `de.codecentric.springbootsample.Application` class from your IDE.
-
-Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html) like so:
-
+### Clone
+To get started you can simply clone this repository using git:
+```
+git clone https://github.com/joozybrain/ecommerce.git
+cd ecommerce
+```
+You can run the application from the command line using:
 ```shell
 mvn spring-boot:run
 ```
+Once you have seen the message below, the spring boot application has completed its startup 
+and you can access the application using your web browser.
+
+![Screenshot](./src/main/resources/images/started.png)
 
 ## Usage
 
-The easiest way to deploy the sample application to OpenShift is to use the [OpenShift CLI](https://docs.openshift.org/latest/cli_reference/index.html):
+Enter the following url into your web brower:
 
 ```shell
-oc new-app codecentric/springboot-maven3-centos~https://github.com/codecentric/springboot-sample-app
+https
 ```
 
 This will create:
