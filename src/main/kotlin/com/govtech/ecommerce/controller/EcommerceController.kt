@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import org.thymeleaf.spring5.context.webflux.IReactiveDataDriverContextVariable
+import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable
 import reactor.core.publisher.Flux
 import java.time.Duration
 import java.time.LocalTime
@@ -23,8 +25,10 @@ class EcommerceController {
     @GetMapping(path = ["/flux"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun streamFlux() : Flux<String> {
         return Flux.interval(Duration.ofSeconds(1))
-            .map { elements -> "Flux - " + LocalTime.now().toString() }
+            .map { elements -> "In Progress at "+LocalTime.now().toString() }
     }
+
+
 
     @GetMapping("/dataset/upload")
     fun file() : String {
@@ -37,21 +41,16 @@ class EcommerceController {
 
         try {
             val buffReader = service.uploadCSV(csv)
-            var message : String
 
 
-            if (buffReader.ready()) {
-                val result = service.saveCSV(buffReader)
-                if (result > 0) {
-                    message = "Success! "+result+" records saved."
-                } else {
-                    message = "Error"
-                }
+            val reactiveDataMessage = ReactiveDataDriverContextVariable(service.saveCSV(buffReader),1)
+            /*if (buffReader.ready()) {
+
             } else {
-                message = "Error"
-            }
+                throw Exception("Empty BufferReader")
+            }*/
 
-            model.addAttribute("message", message)
+            model.addAttribute("messages", reactiveDataMessage)
             return "upload"
         } catch (e: Exception) {
             return "error"

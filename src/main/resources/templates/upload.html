@@ -16,6 +16,17 @@
 </head>
 
 <body>
+<script>
+
+function loadTimer() {
+    var source = new EventSource("/flux");
+    source.onmessage = function(event) {
+      document.getElementById("timer").innerHTML = event.data
+
+    };
+}
+
+</script>
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -58,11 +69,14 @@
                                     <label class="control-label" for="uploadCSV">Upload CSV:</label>
                                     <input type="file" class="form-control" id="uploadCSV" placeholder="Upload CSV"  name="uploadCSV"></input>
                                 </div>
-                                <button type="submit">Upload</button>
+                                <button type="submit" onclick="loadTimer()">Upload</button>
                             </form>
-                            <div th:if="${message}">
-                                <span th:text="${message}"/>
+                            <div th:if="${messages}" >
+                                <span>Records inserted!</span>
+
                             </div>
+                            <p id="timer"></p>
+
                         </div>
                     </div>
                 </div>

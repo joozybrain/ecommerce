@@ -13,13 +13,11 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.util.ResourceUtils
 import org.springframework.web.multipart.MultipartFile
+import reactor.core.publisher.Flux
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
-import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
 
 @Service
 class EcommerceService {
@@ -38,7 +36,7 @@ class EcommerceService {
         return buffReader
     }
 
-    fun saveCSV(buffReader : BufferedReader) : Long {
+    fun saveCSV(buffReader : BufferedReader) : Flux<String> {
         //later add in exception handling for csv
         val csvReader = buffReader
         val csvParser = CSVParser(csvReader, CSVFormat.DEFAULT
@@ -60,7 +58,7 @@ class EcommerceService {
                 invoice.get("Country"))
             invoiceList.add(invoiceRecord)
             counter++
-            if (counter >= 50000 ) {
+            if (counter >= 5000 ) {
                 invoiceRepo.saveAll(invoiceList)
                 invoiceRepo.flush()
                 counter = 0
@@ -74,7 +72,7 @@ class EcommerceService {
         /*invoiceRepo.deleteAll()
         invoiceRepo.saveAll(invoiceList)*/
         logger.info("Completed DB loading..."+invoiceRepo.count())
-        return invoiceRepo.count()
+        return Flux.just("Success! "+invoiceRepo.count()+" records inserted.")
     }
 
     fun checkifDBEmpty() : Int {
