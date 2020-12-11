@@ -1,62 +1,111 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Dataset Listing</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Bare - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/webjars/bootstrap/4.5.3/css/bootstrap.min.css}"
+          rel="stylesheet">
 </head>
+
 <body>
-<table border="1">
-    <thead>
-    <tr>
-        <th>Invoice Number</th>
-        <th>Stock Code</th>
-        <th>Description</th>
-        <th>Quantity</th>
-        <th>Invoice Date</th>
-        <th>Unit Price</th>
-        <th>Customer ID</th>
-        <th>Country</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="invoice, iStat : ${invoicePage.content}"
-        th:style="${iStat.odd}? 'font-weight: bold;'"
-        th:alt-title="${iStat.even}? 'even' : 'odd'">
-        <td th:text="${invoice.invoiceNo}" />
-        <td th:text="${invoice.stockCode}" />
-        <td th:text="${invoice.description}" />
-        <td th:text="${invoice.quantity}" />
-        <td th:text="${invoice.invoiceDate}" />
-        <td th:text="${invoice.unitPrice}" />
-        <td th:text="${invoice.customerId}" />
-        <td th:text="${invoice.country}" />
 
-    </tr>
-    </tbody>
-</table>
-<div>
-    <form method="GET" action="">
-        <tr>
-            <td>
-                <label>Page: <input type="text" name="page"></label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>No of Invoices: <input type="text" name="size"></label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="Submit">
-            </td>
-        </tr>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dataset/upload">Upload</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dataset/list">List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dataset/search">Search</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-    </form>
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <p></p>
+            <div>
+                <form method="GET" action="">
+                    <tr>
+                        <td><label>Page: <input type="text" name="page"></label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>No of Invoices: <input type="text" name="size"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="Submit">
+                        </td>
+                    </tr>
+
+                </form>
+            </div>
+            <table border="1" class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Invoice Number</th>
+                    <th scope="col">Stock Code</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Invoice Date</th>
+                    <th scope="col">Unit Price</th>
+                    <th scope="col">Customer ID</th>
+                    <th scope="col">Country</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="invoice, iStat : ${invoicePage.content}"
+                    th:style="${iStat.odd}? 'font-weight: bold;'"
+                    th:alt-title="${iStat.even}? 'even' : 'odd'">
+                    <td th:text="${invoice.invoiceNo}" />
+                    <td th:text="${invoice.stockCode}" />
+                    <td th:text="${invoice.description}" />
+                    <td th:text="${invoice.quantity}" />
+                    <td th:text="${invoice.invoiceDate}" />
+                    <td th:text="${invoice.unitPrice}" />
+                    <td th:text="${invoice.customerId}" />
+                    <td th:text="${invoice.country}" />
+
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
 </div>
-<div>
-    <a href="/">Home</a>
-</div>
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.min.js}"></script>
 
 </body>
+
 </html>

@@ -10,9 +10,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import java.time.LocalDate
 
 @DataJpaTest
-class InvoiceRepositoryTest @Autowired constructor(
-    val entityManager: TestEntityManager,
-    val invoiceRepository: InvoiceRepository){
+class InvoiceRepositoryTest (){
+
+    @Autowired
+    lateinit var invoiceRepository: InvoiceRepository
+
+
 
     @Test
     fun `check findByInvoiceNo`() {

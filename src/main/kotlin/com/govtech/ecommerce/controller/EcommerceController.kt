@@ -1,15 +1,14 @@
 package com.govtech.ecommerce.controller
 
-import com.govtech.ecommerce.model.Invoice
 import com.govtech.ecommerce.service.EcommerceService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @Controller
-@RequestMapping("/ecommerce")
 class EcommerceController {
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -17,16 +16,30 @@ class EcommerceController {
     @Autowired
     lateinit var service : EcommerceService
 
-    @GetMapping("/dataset/file")
+    @GetMapping("/dataset/upload")
     fun file() : String {
-
         return "upload"
     }
 
     @PostMapping("/dataset/upload")
-    fun upload() : Int {
-        val invoiceList = service.uploadCSV()
-        return invoiceList.size
+    fun upload(model: Model,
+                @RequestParam("uploadCSV") csv: MultipartFile) : String {
+
+        val buffReader = service.uploadCSV(csv)
+        var message : String
+
+        if (buffReader.ready()) {
+            if (service.saveCSV(buffReader).size > 0) {
+                message = "Success"
+            } else {
+                message = "Error"
+            }
+        } else {
+            message = "Error"
+        }
+
+        model.addAttribute("message", message)
+        return "upload"
     }
 
     @GetMapping("/dataset/list")
@@ -52,6 +65,7 @@ class EcommerceController {
     @GetMapping("/")
     fun index(model: Model) : String {
         model.addAttribute("title", "eCommerce")
+        service.checkifDBEmpty()
         return "index"
     }
 
