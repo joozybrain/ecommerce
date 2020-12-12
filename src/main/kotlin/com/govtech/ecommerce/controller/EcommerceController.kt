@@ -42,13 +42,7 @@ class EcommerceController {
         try {
             val buffReader = service.uploadCSV(csv)
 
-
             val reactiveDataMessage = ReactiveDataDriverContextVariable(service.saveCSV(buffReader),1)
-            /*if (buffReader.ready()) {
-
-            } else {
-                throw Exception("Empty BufferReader")
-            }*/
 
             model.addAttribute("messages", reactiveDataMessage)
             return "upload"

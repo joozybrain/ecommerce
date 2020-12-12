@@ -1,10 +1,15 @@
-# springboot-sample-app
+# ecommerce-simple-app
 
-[![Build Status](https://travis-ci.org/codecentric/springboot-sample-app.svg?branch=master)](https://travis-ci.org/codecentric/springboot-sample-app)
-[![Coverage Status](https://coveralls.io/repos/github/codecentric/springboot-sample-app/badge.svg?branch=master)](https://coveralls.io/github/codecentric/springboot-sample-app?branch=master)
-[![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+A simple app in which you can perform the following:
+- Upload a csv file.
+- List the details of the csv file.
+- Search the details of the csv file.
 
-Minimal [Spring Boot](http://projects.spring.io/spring-boot/) sample app.
+It is based on the following technologies:
+- Spring Boot / Spring Webflux
+- H2 in-memory database
+- Thymeleaf templates
+- Bootstrap / JQuery
 
 ## Requirements
 
@@ -24,7 +29,7 @@ cd ecommerce
 ```
 You can run the application from the command line using:
 ```shell
-mvn spring-boot:run
+mvnw spring-boot:run
 ```
 Once you have seen the message below, the spring boot application has completed its startup 
 and you can access the application using your web browser.
@@ -36,24 +41,41 @@ and you can access the application using your web browser.
 Enter the following url into your web brower:
 
 ```shell
-https
+http://localhost:8080
 ```
+You will see the landing page of ecommerce simple app
 
-This will create:
+![Screenshot](./src/main/resources/images/homepage.png)
 
-* An ImageStream called "springboot-maven3-centos"
-* An ImageStream called "springboot-sample-app"
-* A BuildConfig called "springboot-sample-app"
-* DeploymentConfig called "springboot-sample-app"
-* Service called "springboot-sample-app"
+You can upload a csv file
 
-If you want to access the app from outside your OpenShift installation, you have to expose the springboot-sample-app service:
+![Screenshot](./src/main/resources/images/upload.png)
 
-```shell
-oc expose springboot-sample-app --hostname=www.example.com
-```
+Search in the csv file
+
+![Screenshot](./src/main/resources/images/search.png)
+
+And finally list the contents of the file!
+
+![Screenshot](./src/main/resources/images/list.png)
 
 ## Roadmap
+There are a few outstanding enhancements in which I will like to implement down the road:
+1. Improve exception handling for the following:
+    - File upload
+    - Runtime exception
+   
+
+2. Out of memory heap exception on some machine when performing H2 saveall() function.
+
+
+3. Better file handling validation at front end.
+
+
+4. Improve search result pagination.
+
+
+5. Better searching criteria.
 
 ## Copyright
 

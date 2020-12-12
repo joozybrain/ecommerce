@@ -71,11 +71,12 @@ function loadTimer() {
                                 </div>
                                 <button type="submit" onclick="loadTimer()">Upload</button>
                             </form>
+                            <br>
                             <div th:if="${messages}" >
                                 <span>Records inserted!</span>
-
                             </div>
-                            <p id="timer"></p>
+
+                            <p class="text-danger" id="timer"></p>
 
                         </div>
                     </div>

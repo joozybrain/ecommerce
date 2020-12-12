@@ -58,7 +58,7 @@ class EcommerceService {
                 invoice.get("Country"))
             invoiceList.add(invoiceRecord)
             counter++
-            if (counter >= 5000 ) {
+            if (counter >= 50000 ) {
                 invoiceRepo.saveAll(invoiceList)
                 invoiceRepo.flush()
                 counter = 0
