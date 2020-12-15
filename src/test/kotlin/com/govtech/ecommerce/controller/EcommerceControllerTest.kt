@@ -3,6 +3,7 @@ package com.govtech.ecommerce.controller
 import com.govtech.ecommerce.model.Invoice
 import com.govtech.ecommerce.repository.InvoiceRepository
 import com.govtech.ecommerce.service.EcommerceService
+import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.data.domain.PageImpl
@@ -28,23 +30,13 @@ import reactor.core.publisher.Flux
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 
-@ExtendWith(SpringExtension::class)
-@WebMvcTest(EcommerceController::class)
-@AutoConfigureMockMvc
+@WebMvcTest
 internal class EcommerceControllerTest {
-
-    @TestConfiguration
-    class ControllerTestConfig {
-        @Bean
-        fun service() = mockk<EcommerceService>()
-        @Bean
-        fun repo() = mockk<InvoiceRepository>()
-    }
 
     @Autowired
     lateinit var mockMvc : MockMvc
 
-    @Autowired
+    @MockkBean
     lateinit var mockService : EcommerceService
 
 
